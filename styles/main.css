@@ -1,0 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+button:hover {
+  cursor: pointer;
+}
