@@ -95,18 +95,23 @@ const bookmarkList = (function(){
       console.log('button clicked');
       const formHtml=`
         <legend>Create a Bookmark</legend>
-          <input type="text" name="bookmark-title-entry" class="js-title-entry" placeholder="Title">
-          <input type="text" name="bookmark-url-entry" class="js-url-entry" placeholder="URL Link">
-          <button type="submit" class='js-bookmark-submit-btn'>Submit</button>
-          <button type="cancel" class='js-bookmark-cancel-btn'>Cancel</button>
-          <input type="text" name="bookmark-description-entry" class="js-description-entry" placeholder="Description of Bookmark">
-          <select name="bookmark-rating" class="js-rating-entry">
+        <div class='title-url-star'>
+          <input type="text" name="bookmark-title-entry" class="js-title-entry entry" placeholder="Title">
+          <input type="text" name="bookmark-url-entry" class="js-url-entry entry" placeholder="URL Link">
+          <select name="bookmark-rating" class="js-rating-entry entry">
             <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
             <option value="4">&starf;&starf;&starf;&starf;&star;</option>
             <option value="3">&starf;&starf;&starf;&star;&star;</option>
             <option value="2">&starf;&starf;&star;&star;&star;</option>
             <option value="1">&starf;&star;&star;&star;&star;</option>
           </select>
+        </div>
+        
+          <textarea name="bookmark-description-entry" class="js-description-entry" placeholder="Description of Bookmark"></textarea>
+        <div>  
+          <button type="submit" class='js-bookmark-submit-btn'>Submit</button>
+          <button type="cancel" class='js-bookmark-cancel-btn'>Cancel</button>
+        </div>
         `;
       $('#js-bookmark-form').html(formHtml);
       $('.row1').hide();
@@ -170,13 +175,12 @@ const bookmarkList = (function(){
           <h2 class='bookmark-title'>${bookmark.title}</h2>
           <button class='delete-button' data-id=${bookmark.id}><i class="fa fa-trash-o"></i></button>
       </div>
-      <p class='bookmark-description ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>
-        ${bookmark.desc}
-      </p> 
-      <a href=${bookmark.url}><button class='url-link-button ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>Visit Site</button><a>
-
+      <div class='bookmark-description-text-area'>
+        <p class='bookmark-description ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>${bookmark.desc}</p>
+      </div>
       <div class="rating">
         <span>${stars}</span>
+        <a href=${bookmark.url} target="_blank"><button class='url-link-button ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>Visit Site</button></a>
       </div> 
     </li>`;
     

@@ -8,12 +8,14 @@ main {
 }
 
 h1{
+
   text-align: center;
 }
 
 main .row {
+  
   margin-bottom: 20px;
-  border: rgb(0, 0, 0) solid 1px;
+  /* border: rgb(0, 0, 0) solid 1px; */
 }
 
 body {
@@ -42,13 +44,14 @@ button:hover {
 
 .sort-rating-label{
   display: block;
-  position:relative;
-  left: 1.5em;
+  /* position:relative;
+  left: 1.5em; */
 }
 
 .add-bookmark-button{
-  position: relative;
-  top: 18px;
+  margin-top: 3px;
+  padding: 8px;
+
 }
 
 li{
@@ -82,8 +85,48 @@ li{
 }
  
 .red-border{
-  border: solid red 1px;
+  border: solid red 2px;
 }
 
+.bookmark-description-text-area{
+  margin-left: .5em;
+  border: solid red 1px;
+  width: 96%;
+
+}
+
+.url-link-button{
+  position: absolute;
+  right:60px;
+}
+
+legend{
+  font-size: 150%;
+  padding-left: 1em;
+}
+
+.bookmark-form{
+  text-align: center;
+  border: black solid 1px;
+  margin: 1.2em;
+}
+
+.title-url-star{
+  width:100%;
+  text-align: center
+  margin:auto;
+  
+}
+
+textarea{
+  width:80%
+}
+
+.entry{
+  padding: 5px;
+  margin-left: .5emx;
+  margin-right: .5em;
+  margin-bottom:.5em;
+}
 
 
