@@ -23,7 +23,7 @@
             </section> 
             <section role='region' class='section2'>
                 <label for='Minimum Rating' class= 'sort-rating-label'>Sort by Rating:</label>
-                <select id="Minimum Rating" class='col-3'>
+                <select id="Minimum Rating" class='js-rating-selection col-3'>
                     <option value=5>Five Stars</option>
                     <option value=4>Four Stars</option>
                     <option value=3>Three Stars</option>
@@ -33,23 +33,40 @@
                 </select>
             </section>                   
         </div> 
+        <form id="js-bookmark-form">
+            <!-- <legend>Create a Bookmark</legend>
+            <input type="text" name="bookmark-title-entry" class="js-title-entry" placeholder="Title">
+            <input type="text" name="bookmark-url-entry" class="js-url-entry" placeholder="URL Link">
+            <button type="submit" class='js-bookmark-submit-btn'>Submit</button>
+            <button type="button" class='js-bookmark-cancel-btn'>Cancel</button>
+            <input type="text" name="bookmark-description-entry" class="js-description-entry" placeholder="Description of Bookmark">
+            <select name="bookmark-rating" class="js-rating-entry">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select> -->
+        </form>
         <section role='region' class='row section 3'>    
             <ul class="bookmark-list">
-                <li class='bookmark-item' data-item-id=1>
+                <!-- <li class='bookmark-item' data-item-id=1>
                     <div class='title-bar'>
                         <h2 class='bookmark-title'>Article Title</h2>
                         <a><button class='url-link-button'>Visit Site</button><a>
                         <button class='delete-button' ><i class="fa fa-trash-o"></i></button>
-                    </div>
-                    <p class='bookmark-description'>Article Description Lorem ipsum dolor, sit amet consectetur 
+                    </div> -->
+                    
+                    <!-- <p class='bookmark-description'>Article Description Lorem ipsum dolor, sit amet consectetur 
                         adipisicing elit. Aspernatur sunt exercitationem quidem facilis 
                         debitis expedita nemo neque temporibus ex in, atque, recusandae 
                         doloremque nam voluptatibus eos cum, doloribus eaque repellat.
-                    </p>
+                    </p> 
+                    <a href=${bookmark.url}><button class='url-link-button'>Visit Site</button><a>
                     <div class="rating">
                         <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-                    </div>
-                </li>
+                    </div> -->
+                <!-- </li> -->
 
             </ul>
         </section>
@@ -59,7 +76,7 @@
     <script type="text/javascript" src="scripts/api.js"></script>
     <script type="text/javascript" src="scripts/Item.js"></script>
     <script type="text/javascript" src="scripts/store.js"></script>
-    <script type="text/javascript" src="scripts/shopping-list.js"></script>
+    <script type="text/javascript" src="scripts/bookmarks.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
 
 </body>
