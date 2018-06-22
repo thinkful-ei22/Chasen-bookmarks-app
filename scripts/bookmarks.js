@@ -109,8 +109,8 @@ const bookmarkList = (function(){
         
           <textarea name="bookmark-description-entry" class="js-description-entry" placeholder="Description of Bookmark"></textarea>
         <div>  
-          <button type="submit" class='js-bookmark-submit-btn'>Submit</button>
-          <button type="cancel" class='js-bookmark-cancel-btn'>Cancel</button>
+          <button type="submit" class='js-bookmark-submit-btn btn'>Submit</button>
+          <button type="cancel" class='js-bookmark-cancel-btn btn'>Cancel</button>
         </div>
         `;
       $('#js-bookmark-form').html(formHtml);
