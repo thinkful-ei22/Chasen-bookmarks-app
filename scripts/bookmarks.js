@@ -3,9 +3,34 @@
 
 const bookmarkList = (function(){
 
+  function validateBookmark(bookmark){
+    $('.js-title-entry').removeClass('red-border');
+    $('.js-url-entry').removeClass('red-border');
+    $('.js-description-entry').removeClass('red-border');
+
+    if (bookmark.title.length<1){
+      
+      $('.js-title-entry').addClass('red-border');
+      return store.error = 'Title is Required';
+    }
+    if (bookmark.url.length<5 || !bookmark.url.includes('http')){
+      $('.js-url-entry').addClass('red-border');
+      return store.error = 'Url with http/https is Required';
+    }
+    if (bookmark.desc< 1){
+      $('.js-description-entry').addClass('red-border');
+      return store.error = 'Description is Required';      
+    }
+    else{
+      store.error = null;
+      return bookmark;
+    }
+  }
+
   function handleNewBookmarkSubmit(){
     $('#js-bookmark-form').on('click','.js-bookmark-submit-btn', function(event){
       event.preventDefault();
+
       const newBookmarkTitle = $('.js-title-entry').val();
       $('.js-title-entry').val('');
       const newBookmarkUrl = $('.js-url-entry').val();
@@ -14,18 +39,38 @@ const bookmarkList = (function(){
       $('.js-description-entry').val('');
       const newBookmarkRating= $('.js-rating-entry').val();
       $('.js-rating-entry').val('');
-      
+
       const newBookmark= {
         title: newBookmarkTitle,
         url: newBookmarkUrl,
         desc: newBookmarkDescription,
         rating: newBookmarkRating,   
       };
-      console.log(newBookmark);
-      api.createBookmark(newBookmark, bookmark => {
-        store.addBookmark(newBookmark);
-        console.log(newBookmark);
+      const validatedBookmark = validateBookmark(newBookmark);
+      console.log(validatedBookmark);
+      api.createBookmark(validatedBookmark, bookmark => {
+        store.addBookmark(bookmark);
+        console.log(bookmark);
         render();
+      }, (err) => {
+        toastr['error'](store.error, 'Error');
+        toastr.options = {
+          'closeButton': true,
+          'debug': false,
+          'newestOnTop': false,
+          'progressBar': false,
+          'positionClass': 'toast-top-right',
+          'preventDuplicates': false,
+          'onclick': null,
+          'showDuration': '300',
+          'hideDuration': '1000',
+          'timeOut': '5000',
+          'extendedTimeOut': '1000',
+          'showEasing': 'swing',
+          'hideEasing': 'linear',
+          'showMethod': 'fadeIn',
+          'hideMethod': 'fadeOut'
+        };
       });
     });
   }
@@ -56,14 +101,13 @@ const bookmarkList = (function(){
           <button type="cancel" class='js-bookmark-cancel-btn'>Cancel</button>
           <input type="text" name="bookmark-description-entry" class="js-description-entry" placeholder="Description of Bookmark">
           <select name="bookmark-rating" class="js-rating-entry">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+            <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
+            <option value="4">&starf;&starf;&starf;&starf;&star;</option>
+            <option value="3">&starf;&starf;&starf;&star;&star;</option>
+            <option value="2">&starf;&starf;&star;&star;&star;</option>
+            <option value="1">&starf;&star;&star;&star;&star;</option>
           </select>
         `;
-      console.log(formHtml);
       $('#js-bookmark-form').html(formHtml);
       $('.row1').hide();
       
@@ -79,7 +123,8 @@ const bookmarkList = (function(){
 
   function handleClickDeleteButton(){
     $('.bookmark-list').on('click','.delete-button',function(event){
-      const id = $('.bookmark-item').attr('data-id');
+      console.log(event.currentTarget);
+      const id = $(event.currentTarget).attr('data-id');
       console.log(id);
       api.deleteBookmark(id, function(){
         store.findAndDelete(id);
@@ -101,7 +146,6 @@ const bookmarkList = (function(){
 
   function generateBookmarkElement(bookmark){
     let stars = parseInt(bookmark.rating);
-    console.log(stars);
     switch(stars){
     case 5:
       stars='★★★★★';
@@ -116,16 +160,15 @@ const bookmarkList = (function(){
       stars='★★☆☆☆';
       break;
     default: 
-      stars='☆☆☆☆☆';
+      stars='★☆☆☆☆';
       break; 
     }
-    console.log(stars);
 
     return `
     <li class='bookmark-item' data-id=${bookmark.id}>
       <div class='title-bar'>
           <h2 class='bookmark-title'>${bookmark.title}</h2>
-          <button class='delete-button' ><i class="fa fa-trash-o"></i></button>
+          <button class='delete-button' data-id=${bookmark.id}><i class="fa fa-trash-o"></i></button>
       </div>
       <p class='bookmark-description ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>
         ${bookmark.desc}

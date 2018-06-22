@@ -80,7 +80,10 @@ li{
 .js-bookmark-expanded{
   display: none;
 }
-
+ 
+.red-border{
+  border: solid red 1px;
+}
 
 
 
