@@ -77,6 +77,10 @@ li{
   font-size: 150%;
 }
 
+.js-bookmark-expanded{
+  display: none;
+}
+
 
 
 

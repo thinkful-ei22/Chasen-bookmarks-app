@@ -19,15 +19,13 @@ const bookmarkList = (function(){
         title: newBookmarkTitle,
         url: newBookmarkUrl,
         desc: newBookmarkDescription,
-        rating: newBookmarkRating, 
-        expanded: false    
+        rating: newBookmarkRating,   
       };
       console.log(newBookmark);
       api.createBookmark(newBookmark, bookmark => {
         store.addBookmark(newBookmark);
         console.log(newBookmark);
         render();
-                  ///not pushing to database correctly extended//////
       });
     });
   }
@@ -36,8 +34,8 @@ const bookmarkList = (function(){
     $('.bookmark-list').on('click', '.bookmark-item', function(){
       console.log('bookmark clicked');
       let bookmarkId= $(this).attr('data-id');
+      console.log(bookmarkId);
       store.toggleBookmark(bookmarkId);
-      console.log(store.bookmarks.expanded);
       render();
 
       //this has and data-id we can target
@@ -102,15 +100,41 @@ const bookmarkList = (function(){
   }
 
   function generateBookmarkElement(bookmark){
+    let stars = parseInt(bookmark.rating);
+    console.log(stars);
+    switch(stars){
+    case 5:
+      stars='★★★★★';
+      break;
+    case 4:
+      stars='★★★★☆';
+      break;
+    case 3:
+      stars='★★★☆☆';
+      break;
+    case 2:
+      stars='★★☆☆☆';
+      break;
+    default: 
+      stars='☆☆☆☆☆';
+      break; 
+    }
+    console.log(stars);
+
     return `
     <li class='bookmark-item' data-id=${bookmark.id}>
       <div class='title-bar'>
           <h2 class='bookmark-title'>${bookmark.title}</h2>
           <button class='delete-button' ><i class="fa fa-trash-o"></i></button>
       </div>
-        <div class="rating">
-          <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div> 
+      <p class='bookmark-description ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>
+        ${bookmark.desc}
+      </p> 
+      <a href=${bookmark.url}><button class='url-link-button ${!bookmark.expanded ? 'js-bookmark-expanded' : ''}'>Visit Site</button><a>
+
+      <div class="rating">
+        <span>${stars}</span>
+      </div> 
     </li>`;
     
   }
@@ -131,7 +155,7 @@ const bookmarkList = (function(){
 
   function render(){
     filterBookmarksByRating(store.ratingfilter);
-
+    
 
 
 
