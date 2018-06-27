@@ -96,7 +96,7 @@ li{
 
 .url-link-button{
   position: absolute;
-  right:60px;
+  right:.5em;
 }
 
 legend{
@@ -107,15 +107,14 @@ legend{
 
 .bookmark-form{
   text-align: center;
-  border: black solid 1px;
   margin: 1.2em;
 }
 
 .title-url-star{
-  width:100%;
-  text-align: center
+  width:70%;
+  text-align: left;
   margin:auto;
-  
+    
 }
 
 textarea{
@@ -125,14 +124,40 @@ textarea{
 }
 
 .entry{
+  display: block;
+  width: 100%;
   padding: 5px;
-  margin-left: .5emx;
-  margin-right: .5em;
-  margin-bottom:.5em;
+  margin: auto;
+  margin-bottom: .2em;
+}
+
+.description-entry{
+  margin-bottom: .5em;
+  height: 5em;
 }
 
 .btn{
   margin: .5em;
-
+  width: 8em;
+  height: 2em;
 }
 
+div.rating{
+  position: relative;
+}
+
+.border__error{
+  border:red solid 2px;
+}
+
+@media screen and (min-width: 600px) {
+  .title-url-star {
+    width:60%;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .title-url-star {
+    width:50%;
+  }
+}

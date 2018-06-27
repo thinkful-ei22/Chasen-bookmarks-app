@@ -1,31 +1,9 @@
 'use strict';
-/* global $ store, api,  */
+/* global $ store, api, toastr */
+
+/////${store.error ? 'border__error' : ''}/////add
 
 const bookmarkList = (function(){
-
-  function validateBookmark(bookmark){
-    $('.js-title-entry').removeClass('red-border');
-    $('.js-url-entry').removeClass('red-border');
-    $('.js-description-entry').removeClass('red-border');
-
-    if (bookmark.title.length<1){
-      
-      $('.js-title-entry').addClass('red-border');
-      return store.error = 'Title is Required';
-    }
-    if (bookmark.url.length<5 || !bookmark.url.includes('http')){
-      $('.js-url-entry').addClass('red-border');
-      return store.error = 'Url with http/https is Required';
-    }
-    if (bookmark.desc< 1){
-      $('.js-description-entry').addClass('red-border');
-      return store.error = 'Description is Required';      
-    }
-    else{
-      store.error = null;
-      return bookmark;
-    }
-  }
 
   function handleNewBookmarkSubmit(){
     $('#js-bookmark-form').on('click','.js-bookmark-submit-btn', function(event){
@@ -46,34 +24,44 @@ const bookmarkList = (function(){
         desc: newBookmarkDescription,
         rating: newBookmarkRating,   
       };
-      const validatedBookmark = validateBookmark(newBookmark);
-      console.log(validatedBookmark);
-      api.createBookmark(validatedBookmark, bookmark => {
-        store.addBookmark(bookmark);
-        console.log(bookmark);
-        render();
-      }, (err) => {
-        toastr['error'](store.error, 'Error');
-        toastr.options = {
-          'closeButton': true,
-          'debug': false,
-          'newestOnTop': false,
-          'progressBar': false,
-          'positionClass': 'toast-top-right',
-          'preventDuplicates': false,
-          'onclick': null,
-          'showDuration': '300',
-          'hideDuration': '1000',
-          'timeOut': '5000',
-          'extendedTimeOut': '1000',
-          'showEasing': 'swing',
-          'hideEasing': 'linear',
-          'showMethod': 'fadeIn',
-          'hideMethod': 'fadeOut'
-        };
-      });
+      const validatedBookmark = store.validateBookmark(newBookmark);
+      
+      if (store.error !== null){
+        handleErrorCreateBookmark(store.error);
+      }
+      else{
+        api.createBookmark(validatedBookmark, handleSuccessfulCreateBookmark, handleErrorCreateBookmark);
+      }
     });
   }
+
+  function handleErrorCreateBookmark (){
+    toastr['error'](store.error, 'Error');
+    toastr.options = {
+      'closeButton': true,
+      'debug': false,
+      'newestOnTop': false,
+      'progressBar': false,
+      'positionClass': 'toast-top-right',
+      'preventDuplicates': false,
+      'onclick': null,
+      'showDuration': '300',
+      'hideDuration': '1000',
+      'timeOut': '5000',
+      'extendedTimeOut': '1000',
+      'showEasing': 'swing',
+      'hideEasing': 'linear',
+      'showMethod': 'fadeIn',
+      'hideMethod': 'fadeOut'
+    };
+
+  }
+
+  function handleSuccessfulCreateBookmark(bookmark){
+    store.addBookmark(bookmark);
+    render();
+  }
+
 
   function handleClickedBookmark(){
     $('.bookmark-list').on('click', '.bookmark-item', function(){
@@ -96,8 +84,13 @@ const bookmarkList = (function(){
       const formHtml=`
         <legend>Create a Bookmark</legend>
         <div class='title-url-star'>
-          <input type="text" name="bookmark-title-entry" class="js-title-entry entry" placeholder="Title">
-          <input type="text" name="bookmark-url-entry" class="js-url-entry entry" placeholder="URL Link">
+          <label for='bookmark-title-entry' class='entry'>Title</label>
+          <input type="text" id="bookmark-title-entry" class="js-title-entry entry" placeholder="Title">
+          <label for='bookmark-url-entry' class='entry'>Url </label>
+          <input type="text" id="bookmark-url-entry" class="js-url-entry entry" placeholder="URL Link">
+          
+          <label for='bookmark-description-entry' class='entry' >Description</label>
+          <textarea name="bookmark-description-entry" class="js-description-entry description-entry entry" placeholder="Description of Bookmark"></textarea>
           <select name="bookmark-rating" class="js-rating-entry entry">
             <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
             <option value="4">&starf;&starf;&starf;&starf;&star;</option>
@@ -106,28 +99,30 @@ const bookmarkList = (function(){
             <option value="1">&starf;&star;&star;&star;&star;</option>
           </select>
         </div>
-        
-          <textarea name="bookmark-description-entry" class="js-description-entry" placeholder="Description of Bookmark"></textarea>
         <div>  
           <button type="submit" class='js-bookmark-submit-btn btn'>Submit</button>
           <button type="cancel" class='js-bookmark-cancel-btn btn'>Cancel</button>
         </div>
         `;
       $('#js-bookmark-form').html(formHtml);
-      $('.row1').hide();
+      // $('.row1').hide();
       
     });
       
   }
 
   function handleClickCancelButton(){
-    $('.js-bookmark-form').on('click', '.js-bookmark-cancel-btn' , function(event){
-      console.log('reset');
+    $('#js-bookmark-form').on('click', '.js-bookmark-cancel-btn' , function(event){
+      // event.preventDefault();
+      console.log('cancel clicked');
+      // store.toggleAdding();
+      // render();
     });
   }
 
   function handleClickDeleteButton(){
     $('.bookmark-list').on('click','.delete-button',function(event){
+      event.stopPropagation();
       console.log(event.currentTarget);
       const id = $(event.currentTarget).attr('data-id');
       console.log(id);
