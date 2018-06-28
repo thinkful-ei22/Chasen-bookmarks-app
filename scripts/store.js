@@ -1,6 +1,6 @@
 'use strict';
 
-/*global */
+/*global store */
 
 const store = (function () {
   const bookmarks = [];
@@ -27,11 +27,9 @@ const store = (function () {
     }
   }
 
-
   const addBookmark = function(bookmark) {
     bookmark.expanded = false;
     this.bookmarks.push(bookmark);
-    // console.log(bookmark);
   };
 
   const toggleAdding = function(){
@@ -40,7 +38,6 @@ const store = (function () {
 
   const toggleBookmark = function(bookmarkId){
     this.bookmarks = this.bookmarks.map(bookmark => {
-      console.log(bookmark.expanded);
       if(bookmarkId === bookmark.id){
         bookmark.expanded = !bookmark.expanded;
       }
@@ -48,13 +45,14 @@ const store = (function () {
     });
   };
 
-  
+  const setErrortoNull = function(){
+    this.error = null;
+  };
 
   const findAndDelete = function(id) {
     this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
   };
   
-
   return {
     validateBookmark,
     addBookmark,
@@ -65,6 +63,6 @@ const store = (function () {
     error,
     findAndDelete,
     toggleAdding,
-
+    setErrortoNull
   };
 }());

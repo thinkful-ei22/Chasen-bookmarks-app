@@ -1,7 +1,6 @@
 'use strict';
 /* global $ store, api, toastr */
 
-/////${store.error ? 'border__error' : ''}/////add
 
 const bookmarkList = (function(){
 
@@ -54,7 +53,7 @@ const bookmarkList = (function(){
       'showMethod': 'fadeIn',
       'hideMethod': 'fadeOut'
     };
-
+    render();
   }
 
   function handleSuccessfulCreateBookmark(bookmark){
@@ -70,53 +69,24 @@ const bookmarkList = (function(){
       console.log(bookmarkId);
       store.toggleBookmark(bookmarkId);
       render();
-
-      //this has and data-id we can target
-
-      // store.bookmarks.extended = true;
     });
-
   }
 
   function handleClickedAddBookmark(){
     $('.add-bookmark-button').click(function(event){
-      console.log('button clicked');
-      const formHtml=`
-        <legend>Create a Bookmark</legend>
-        <div class='title-url-star'>
-          <label for='bookmark-title-entry' class='entry'>Title</label>
-          <input type="text" id="bookmark-title-entry" class="js-title-entry entry" placeholder="Title">
-          <label for='bookmark-url-entry' class='entry'>Url </label>
-          <input type="text" id="bookmark-url-entry" class="js-url-entry entry" placeholder="URL Link">
-          
-          <label for='bookmark-description-entry' class='entry' >Description</label>
-          <textarea name="bookmark-description-entry" class="js-description-entry description-entry entry" placeholder="Description of Bookmark"></textarea>
-          <select name="bookmark-rating" class="js-rating-entry entry">
-            <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
-            <option value="4">&starf;&starf;&starf;&starf;&star;</option>
-            <option value="3">&starf;&starf;&starf;&star;&star;</option>
-            <option value="2">&starf;&starf;&star;&star;&star;</option>
-            <option value="1">&starf;&star;&star;&star;&star;</option>
-          </select>
-        </div>
-        <div>  
-          <button type="submit" class='js-bookmark-submit-btn btn'>Submit</button>
-          <button type="cancel" class='js-bookmark-cancel-btn btn'>Cancel</button>
-        </div>
-        `;
-      $('#js-bookmark-form').html(formHtml);
-      // $('.row1').hide();
-      
-    });
-      
+      store.toggleAdding();
+      console.log(store.adding);
+      store.setErrortoNull();
+      render();
+    });    
   }
 
   function handleClickCancelButton(){
     $('#js-bookmark-form').on('click', '.js-bookmark-cancel-btn' , function(event){
-      // event.preventDefault();
+      event.preventDefault();
       console.log('cancel clicked');
-      // store.toggleAdding();
-      // render();
+      store.toggleAdding();
+      render();
     });
   }
 
@@ -129,8 +99,7 @@ const bookmarkList = (function(){
       api.deleteBookmark(id, function(){
         store.findAndDelete(id);
         render();
-      });
-      
+      }); 
     });
   }
 
@@ -141,7 +110,6 @@ const bookmarkList = (function(){
       console.log(store);
       render();
     });
-
   }
 
   function generateBookmarkElement(bookmark){
@@ -163,7 +131,7 @@ const bookmarkList = (function(){
       stars='★☆☆☆☆';
       break; 
     }
-
+    ////this stars can be listed as an object instead of switch//////
     return `
     <li class='bookmark-item' data-id=${bookmark.id}>
       <div class='title-bar'>
@@ -184,26 +152,50 @@ const bookmarkList = (function(){
   const filterBookmarksByRating = function(rating){
     if(rating >1){
       let filteredArr= store.bookmarks.filter(bookmark => bookmark.rating >= rating);
-      console.log(filteredArr);
       const bookmarkHtml = filteredArr.map(bookmark => generateBookmarkElement(bookmark)).join('');
       $('.bookmark-list').html(bookmarkHtml);
-      
     }else{
       const bookmarkHtml = store.bookmarks.map(bookmark => generateBookmarkElement(bookmark)).join('');
       $('.bookmark-list').html(bookmarkHtml);
     }
   };
-  
 
+  function generateFormElement(){
+    if (store.adding){
+      const formHtml=`
+        <legend>Create a Bookmark</legend>
+        <div class='title-url-star'>
+          <label for='bookmark-title-entry' class='entry'>Title</label>
+          <input type="text" id="bookmark-title-entry" class="js-title-entry entry ${store.error === 'Title is Required' ? 'border__error' : ''}" placeholder="Title">
+          <label for='bookmark-url-entry' class='entry'>Url </label>
+          <input type="text" id="bookmark-url-entry" class="js-url-entry entry ${store.error === 'Url with http/https is Required' ? 'border__error' : ''}" placeholder="URL Link">
+          <label for='bookmark-description-entry' class='entry' >Description</label>
+          <textarea name="bookmark-description-entry" class="js-description-entry description-entry entry ${store.error === 'Description is Required' ? 'border__error' : ''}" placeholder="Description of Bookmark"></textarea>
+          <select name="bookmark-rating" class="js-rating-entry entry">
+            <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
+            <option value="4">&starf;&starf;&starf;&starf;&star;</option>
+            <option value="3">&starf;&starf;&starf;&star;&star;</option>
+            <option value="2">&starf;&starf;&star;&star;&star;</option>
+            <option value="1">&starf;&star;&star;&star;&star;</option>
+          </select>
+        </div>
+        <div>  
+          <button type="submit" class='js-bookmark-submit-btn btn'>Submit</button>
+          <button type="cancel" class='js-bookmark-cancel-btn btn'>Cancel</button>
+        </div>
+        `;
+      $('#js-bookmark-form').html(formHtml);
+    }else{
+      $('#js-bookmark-form').html('');
+    }
+  }
+  
   function render(){
     filterBookmarksByRating(store.ratingfilter);
-    
-
-
-
-    console.log(store.bookmarks);
+    generateFormElement();
+    //keeping for future development///
+    // console.log(store.bookmarks); 
   }
-
 
   function bindEventListeners(){
     handleNewBookmarkSubmit();
@@ -212,19 +204,10 @@ const bookmarkList = (function(){
     handleClickCancelButton();
     handleClickDeleteButton();
     handleRatingFilterClick();
-
-    console.log('eventlisteners ran');
   }
-
-
-
 
   return{
     render,
     bindEventListeners,
   };
-
-
-
-
 }());

@@ -1,10 +1,9 @@
 * {
   box-sizing: border-box;
 }
+
 .row {
-  max-width: 1000px;
-  padding-left: 20px;
-  padding-right: 20px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -24,7 +23,6 @@
   padding-left: 1.04166666%;
   padding-right: 1.04166666%;
 }
-
 
 .section1{
   text-align: center;

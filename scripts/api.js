@@ -4,7 +4,6 @@
 const api = (function(){
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/chasen/bookmarks';
 
-  
   const getBookmarks = function(callback){
     $.getJSON(BASE_URL, callback);
   };
@@ -34,6 +33,5 @@ const api = (function(){
     createBookmark,
     deleteBookmark    
   };
-
 }());
 

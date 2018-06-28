@@ -8,18 +8,20 @@ main {
 }
 
 h1{
-
   text-align: center;
 }
 
 main .row {
-  
   margin-bottom: 20px;
-  /* border: rgb(0, 0, 0) solid 1px; */
 }
 
 body {
     font-family: 'Roboto', sans-serif;
+}
+
+.section3{
+  max-width: 800px;
+  padding: .5em 1em;
 }
 
 .title-bar{
@@ -31,7 +33,6 @@ body {
 .bookmark-title{
   display: inline-block;
   padding: .5em;
-  
 }
 
 .bookmark-description{
@@ -44,14 +45,11 @@ button:hover {
 
 .sort-rating-label{
   display: block;
-  /* position:relative;
-  left: 1.5em; */
 }
 
 .add-bookmark-button{
   margin-top: 3px;
   padding: 8px;
-
 }
 
 li{
@@ -60,6 +58,7 @@ li{
   border: black 2px solid;
   border-radius: 8px;
 }
+
 .url-link-button{
   border-radius: 2px;
 }
@@ -91,7 +90,6 @@ li{
 .bookmark-description-text-area{
   margin-left: .5em;
   width: 96%;
-
 }
 
 .url-link-button{
@@ -111,16 +109,15 @@ legend{
 }
 
 .title-url-star{
-  width:70%;
+  width:90%;
   text-align: left;
-  margin:auto;
-    
+  margin:auto; 
+  max-width: 600px;  
 }
 
 textarea{
  text-align: left;
- width: 70%;
-  
+ width: 70%; 
 }
 
 .entry{
@@ -150,14 +147,3 @@ div.rating{
   border:red solid 2px;
 }
 
-@media screen and (min-width: 600px) {
-  .title-url-star {
-    width:60%;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  .title-url-star {
-    width:50%;
-  }
-}
