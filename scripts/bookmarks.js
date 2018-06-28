@@ -112,6 +112,12 @@ const bookmarkList = (function(){
     });
   }
 
+  function handleVisitSiteClick(){
+    $('.bookmark-list').on('click', '.url-link-button', function(event){
+      event.stopPropagation();
+    });
+  }
+
   function generateBookmarkElement(bookmark){
     let stars = parseInt(bookmark.rating);
     switch(stars){
@@ -204,6 +210,7 @@ const bookmarkList = (function(){
     handleClickCancelButton();
     handleClickDeleteButton();
     handleRatingFilterClick();
+    handleVisitSiteClick();
   }
 
   return{
