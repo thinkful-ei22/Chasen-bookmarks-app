@@ -167,34 +167,32 @@ const bookmarkList = (function(){
   };
 
   function generateFormElement(){
-    if (store.adding){
-      const formHtml=`
-        <legend>Create a Bookmark</legend>
-        <div class='title-url-star'>
-          <label for='bookmark-title-entry' class='entry'>Title</label>
-          <input type="text" id="bookmark-title-entry" class="js-title-entry entry ${store.error === 'Title is Required' ? 'border__error' : ''}" placeholder="Title">
-          <label for='bookmark-url-entry' class='entry'>Url </label>
-          <input type="text" id="bookmark-url-entry" class="js-url-entry entry ${store.error === 'Url with http/https is Required' ? 'border__error' : ''}" placeholder="URL Link">
-          <label for='bookmark-description-entry' class='entry' >Description</label>
-          <textarea name="bookmark-description-entry" class="js-description-entry description-entry entry ${store.error === 'Description is Required' ? 'border__error' : ''}" placeholder="Description of Bookmark"></textarea>
-          <select name="bookmark-rating" class="js-rating-entry entry">
-            <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
-            <option value="4">&starf;&starf;&starf;&starf;&star;</option>
-            <option value="3">&starf;&starf;&starf;&star;&star;</option>
-            <option value="2">&starf;&starf;&star;&star;&star;</option>
-            <option value="1">&starf;&star;&star;&star;&star;</option>
-          </select>
-        </div>
-        <div>  
-          <button type="submit" class='js-bookmark-submit-btn btn'>Submit</button>
-          <button type="cancel" class='js-bookmark-cancel-btn btn'>Cancel</button>
-        </div>
-        `;
-      $('#js-bookmark-form').html(formHtml);
-    }else{
-      $('#js-bookmark-form').html('');
-    }
+    const formHtml= !store.adding? '':`
+      <legend>Create a Bookmark</legend>
+      <div class='title-url-star'>
+        <label for='bookmark-title-entry' class='entry'>Title</label>
+        <input type="text" id="bookmark-title-entry" class="js-title-entry entry ${store.error === 'Title is Required' ? 'border__error' : ''}" placeholder="Title">
+        <label for='bookmark-url-entry' class='entry'>Url </label>
+        <input type="text" id="bookmark-url-entry" class="js-url-entry entry ${store.error === 'Url with http/https is Required' ? 'border__error' : ''}" placeholder="URL Link">
+        <label for='bookmark-description-entry' class='entry' >Description</label>
+        <textarea name="bookmark-description-entry" class="js-description-entry description-entry entry ${store.error === 'Description is Required' ? 'border__error' : ''}" placeholder="Description of Bookmark"></textarea>
+        <select name="bookmark-rating" class="js-rating-entry entry">
+          <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
+          <option value="4">&starf;&starf;&starf;&starf;&star;</option>
+          <option value="3">&starf;&starf;&starf;&star;&star;</option>
+          <option value="2">&starf;&starf;&star;&star;&star;</option>
+          <option value="1">&starf;&star;&star;&star;&star;</option>
+        </select>
+      </div>
+      <div>  
+        <button type="submit" class='js-bookmark-submit-btn btn'>Submit</button>
+        <button type="cancel" class='js-bookmark-cancel-btn btn'>Cancel</button>
+      </div>
+      `;
+    $('#js-bookmark-form').html(formHtml);
   }
+
+
   
   function render(){
     filterBookmarksByRating(store.ratingfilter);
